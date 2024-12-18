@@ -39,20 +39,19 @@
 
     <script>
         function controlLED(action) {
-            const url = `http://172.16.12.240/led/${action}`; // API endpoint for ESP8266
+            const url = 'https://led-control-4e93.vercel.app/api/led'; // API endpoint for ESP8266
 
             fetch(url, {
                 method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ action: action }),
+                
             })
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw new Error(`Request failed with status ${response.status}`);
-                    }
-                })
+                .then(response => response.json())
                 .then(data => {
-                    alert(`LED turned ${data.status}`);
+                    alert(data.status);
                 })
                 .catch(error => {
                     console.error('Error:', error);
